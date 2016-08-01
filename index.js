@@ -5,6 +5,39 @@ q = "horses"
 page = Math.floor(Math.random()* 25)
 
 
+function newValentine(){
+      v = document.getElementById('valentine')
+
+      if (v) {document.body.removeChild(v)};
+      
+      t = document.createElement('h1')
+      t.innerHTML = message[Math.floor(Math.random() * message.length)]
+      footer = document.createElement('div')
+      footer.id = 'footer'
+      footer.innerHTML = '<a href="javascript:saveValentine()">&hearts; Save This Valentine</a> <a href="javascript:newValentine()">&orarr; Show Me Another Valentine</a> <a href="https://github.com/lifewinning/wernerherzogvalentines/blob/gh-pages/valentines.txt">&hearts; Contribute Valentines</a>'
+      val = document.createElement('div')
+      val.id = 'valentine'
+      val.appendChild(t)
+      val.appendChild(footer)
+      document.body.appendChild(val)
+    }
+
+function neighLady(arr){
+    var rand = arr[Math.floor(Math.random() * arr.length)];
+    horse = document.querySelector('#hay')
+    horse.innerHTML = ""
+    hed = document.createElement('h1')
+    hed.innerHTML = '<a href='+rand.web_url+'><em>'+rand.headline.main+'</em></a>'
+    date = document.createElement('h3')
+    // console.log(Date.parse(rand.pub_date))
+    // date.innerHTML = rand.pub_date
+    snippet = document.createElement('p')
+    snippet.innerHTML = rand.snippet+'<hr>'
+    horse.appendChild(hed)
+    horse.appendChild(date)
+    horse.appendChild(snippet)
+}
+
 var xhr = new XMLHttpRequest();
 xhr.open("GET", url+'?api-key='+apikey+'&q='+q+'&page='+page, true);
 xhr.onload = function() {
@@ -17,18 +50,12 @@ xhr.onload = function() {
         no_topics.push(r)
       } 
     })
-    var rand = no_topics[Math.floor(Math.random() * no_topics.length)];
     horse = document.querySelector('#horse')
-    hed = document.createElement('h1')
-    hed.innerHTML = '<a href='+rand.web_url+'><em>'+rand.headline.main+'</em></a>'
-    date = document.createElement('h3')
-    // console.log(Date.parse(rand.pub_date))
-    // date.innerHTML = rand.pub_date
-    snippet = document.createElement('p')
-    snippet.innerHTML = rand.snippet+'<hr>'
-    horse.appendChild(hed)
-    horse.appendChild(date)
-    horse.appendChild(snippet)
+    newHorse = document.createElement('h3')
+    newHorse.innerHTML = '<a href=javascript:neighLady(no_topics)>Select Another Horse</a><hr>'
+    horse.appendChild(newHorse)
+    neighLady(no_topics)
   }
 }
 xhr.send()
+
